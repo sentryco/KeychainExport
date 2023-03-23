@@ -12,7 +12,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/eonist/With.git", branch: "master"),
         .package(url: "https://github.com/eonist/WizardHelper.git", branch: "master"),
-        .package(url: "https://github.com/eonist/JSONSugar.git", branch: "master))
+        .package(url: "https://github.com/eonist/JSONSugar.git", branch: "master")
     ],
     targets: [
         .target(
