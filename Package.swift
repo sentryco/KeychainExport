@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.6
 
 import PackageDescription
 
@@ -10,9 +10,9 @@ let package = Package(
             targets: ["KeychainExport"])
     ],
     dependencies: [
-        .package(url: "https://github.com/eonist/With.git", .branch("master")),
-        .package(url: "https://github.com/sentryco/WizardHelper.git", .branch("master")),
-        .package(url: "https://github.com/eonist/JSONSugar.git", .branch("master"))
+        .package(url: "https://github.com/eonist/With.git", branch: "master"),
+        .package(url: "https://github.com/eonist/WizardHelper.git", branch: "master"),
+        .package(url: "https://github.com/eonist/JSONSugar.git", branch: "master))
     ],
     targets: [
         .target(
