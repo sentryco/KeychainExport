@@ -37,3 +37,4 @@ First item is secureNote, second is GeneralPassword (note will never have passwo
 - Design a macOS icon for submission to AppStore etc 👈
 - Add readable error
 - Reset git before making the repo public, it has Key repo etc, also tokens that should be cleared ✅
+- what format is it saved in?
