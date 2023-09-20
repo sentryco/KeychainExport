@@ -1,10 +1,10 @@
 [![Tests](https://github.com/sentryco/KeychainExport/actions/workflows/Tests.yml/badge.svg)](https://github.com/sentryco/KeychainExport/actions/workflows/Tests.yml)
 
 # KeychainExport 📦
-Export general-passwords and Secure-notes from apple keychain macOS
+This tool allows you to export General Passwords and Secure Notes from the Apple Keychain on macOS.
 
-### Export-format:
-First item is secureNote, second is GeneralPassword (note will never have password)
+### Export Format:
+The first item in the exported data represents a Secure Note, while the second represents a General Password. Please note that a Secure Note will never contain a password.
 ```json
 [
   {
