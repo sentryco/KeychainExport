@@ -13,42 +13,81 @@ extension Wizard {
     * begin export process
     */
    public static func beginExport() {
+      // Set the title for the introduction alert. The title displays the total number of items in the keychain.
       let introTitle = "There are \(Self.keyChainItems.count) items in keychain"
-      let introMSG = "Since you will have to authorize each key, we recomend pasting your admin-password to speed up the process"
+
+      // Set the message for the introduction alert. The message advises the user to paste their admin password to expedite the authorization process.
+      let introMSG = "Since you will have to authorize each key, we recommend pasting your admin-password to speed up the process"
+
+      // Create an alert with the specified title and message. If the user clicks "OK", the exportSecureNote function is called.
       createAlert(title: introTitle, msg: introMSG, onOk: exportSecureNote)
    }
    /**
     * Begin export process for "secure note"
     */
    private static func exportSecureNote() {
+      // Set the title for the alert as "SecureNote"
       let introTitle = "SecureNote"
+      
+      // Get all the secure note items from the keychain
       let noteItems = KeychainExport.getKeychainItemsByType(items: Self.keyChainItems, type: .note)
+      
+      // Set the message for the alert, indicating the number of secure notes to be exported
       let introMSG = "Do you want to export \(noteItems.count) SecureNotes?"
+      
+      // Define the action to be taken when "OK" is clicked on the alert
       let ok = {
+         // Get all the exportable secure note items from the keychain
          let exportableSecureNoteItems = KeychainExport.exportableItems(keyChainItems: Self.keyChainItems, type: .note)
+         
+         // Add the exportable secure note items to the list of items to be exported
          Self.exportableItems += exportableSecureNoteItems
+         
+         // Begin the process to export general passwords
          exportGeneralPasswords()
       }
-      let onCancel = { exportGeneralPasswords()/* ⚠️️ Close app here? ⚠️️ */ }
+      
+      // Define the action to be taken when "Cancel" is clicked on the alert
+      let onCancel = { 
+         // Begin the process to export general passwords
+         exportGeneralPasswords()/* ⚠️️ Close app here? ⚠️️ */ 
+      }
+      
+      // Create the alert with the specified title, message, and actions for "OK" and "Cancel"
       createAlert(title: introTitle, msg: introMSG, onOk: ok, onCancel: onCancel)
    }
    /**
     * Begin export process for "general passwords"
     */
    private static func exportGeneralPasswords() {
-      let introTitle = "GeneralPassword"
-      let genPswItems = KeychainExport.getKeychainItemsByType(items: Self.keyChainItems, type: .password)
-      let introMSG = "Do you want to export \(genPswItems.count) GeneralPasswords?"
-      let onComplete = {
-         KeychainExport.exportToJSON(exportableItems: Self.exportableItems)
-         // - Fixme: ⚠️️ Close app here ?
-      }
+            // Set the title for the alert as "SecureNote"
+      let introTitle = "SecureNote"
+      
+      // Get all the secure note items from the keychain
+      let noteItems = KeychainExport.getKeychainItemsByType(items: Self.keyChainItems, type: .note)
+      
+      // Set the message for the alert, indicating the number of secure notes to be exported
+      let introMSG = "Do you want to export \(noteItems.count) SecureNotes?"
+      
+      // Define the action to be taken when "OK" is clicked on the alert
       let ok = {
-         let exportablePasswordItems = KeychainExport.exportableItems(keyChainItems: Self.keyChainItems, type: .password)
-         Self.exportableItems += exportablePasswordItems
-         onComplete()
+         // Get all the exportable secure note items from the keychain
+         let exportableSecureNoteItems = KeychainExport.exportableItems(keyChainItems: Self.keyChainItems, type: .note)
+         
+         // Add the exportable secure note items to the list of items to be exported
+         Self.exportableItems += exportableSecureNoteItems
+         
+         // Begin the process to export general passwords
+         exportGeneralPasswords()
       }
-      let onCancel = { onComplete() }
+      
+      // Define the action to be taken when "Cancel" is clicked on the alert
+      let onCancel = { 
+         // Begin the process to export general passwords
+         exportGeneralPasswords()/* ⚠️️ Close app here? ⚠️️ */ 
+      }
+      
+      // Create the alert with the specified title, message, and actions for "OK" and "Cancel"
       createAlert(title: introTitle, msg: introMSG, onOk: ok, onCancel: onCancel)
    }
 }
@@ -67,20 +106,20 @@ extension Wizard {
     * NSAlert.createAlert(title: "Hello", msg: "Do something", onOk: { ... }, onCancel: { ... })
     */
    internal static func createAlert(title: String, msg: String, onOk: OKClosure = defaultOK, onCancel: CancelClosure = defaultCancel) {
-      with(NSAlert()) {
-         $0.messageText = title
-         $0.informativeText = msg
-         $0.alertStyle = .warning
-         $0.addButton(withTitle: "OK")
-         $0.addButton(withTitle: "Cancel")
-         let res = $0.runModal()
-         switch res {
-         case .alertFirstButtonReturn: // OK
-            onOk()
-         case .alertSecondButtonReturn: // Cancel
-            onCancel()
-         default:
-            fatalError("Err not supported")
+      with(NSAlert()) { // Initialize an NSAlert instance
+         $0.messageText = title // Set the title of the alert
+         $0.informativeText = msg // Set the message of the alert
+         $0.alertStyle = .warning // Set the alert style to warning
+         $0.addButton(withTitle: "OK") // Add an "OK" button to the alert
+         $0.addButton(withTitle: "Cancel") // Add a "Cancel" button to the alert
+         let res = $0.runModal() // Display the alert and store the user's response
+         switch res { // Handle the user's response
+         case .alertFirstButtonReturn: // If the user clicked "OK"
+            onOk() // Execute the onOk closure
+         case .alertSecondButtonReturn: // If the user clicked "Cancel"
+            onCancel() // Execute the onCancel closure
+         default: // If the user's response is not supported
+            fatalError("Err not supported") // Throw a fatal error
          }
       }
    }
